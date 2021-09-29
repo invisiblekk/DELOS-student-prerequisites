@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-delos
+spec:
+  selector:
+    app: service_delos_pod2
+  ports:
+  - port: 80
+    targetPort: http

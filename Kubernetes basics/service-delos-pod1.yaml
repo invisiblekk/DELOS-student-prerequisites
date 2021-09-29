@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service-delos-pod1
+spec:
+  restartPolicy: Never
+  containers:
+  - name: delos-pod1
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do sleep $(( $RANDOM % 10 + 1 )); echo 'POD1: hello world'; sleep $(( $RANDOM % 5 + 1 )); echo 'GET / HTTP/1.1\r\n\r\n' | nc service-delos 80 | awk 'END {print}'; done"]
+    env:
+      - name: tx_time
+        valueFrom:
+          configMapKeyRef:
+            name: service-delos-config
+            key: time.tx
+      - name: rx_time
+        valueFrom:
+          configMapKeyRef:
+            name: service-delos-config
+            key: time.rx

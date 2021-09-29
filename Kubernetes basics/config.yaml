@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: service-delos-config
+  namespace: default
+data:
+  time.tx: "10"
+  time.rx: "5"

@@ -35,5 +35,4 @@
 
     `python predict.py`
 
-6.  
 
