@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongodb-pod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: mongodb-pod
+    image: mongo
+    command: ["/bin/sh"]
+    args: ["-c", "echo \"mongo mongodb-service:27017 -u \"$(MONGO_INITDB_ROOT_USERNAME)\" -p \"$(MONGO_INITDB_ROOT_PASSWORD)\" --authenticationDatabase \"admin\"<<EOF\nuse student\ndb.student.insert({\"id\":2,\"grade\":90})\ndb.student.find()\nexit\nEOF\" > mongodb-insert.sh; sh mongodb-insert.sh"]
+    env:
+      - name: MONGO_INITDB_ROOT_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: mongodb-secret
+            key: mongo-root-username
+      - name: MONGO_INITDB_ROOT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: mongodb-secret
+            key: mongo-root-password
